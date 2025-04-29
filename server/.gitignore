@@ -1,0 +1,7 @@
+
+
+#GoogleFirebase
+/firebase-service-account.json
+# ignore Firebase service account key
+server/firebase-service-account.json
+server/node_modules

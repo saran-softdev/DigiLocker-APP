@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "795033743602",
+    "project_id": "digilocker-77161",
+    "storage_bucket": "digilocker-77161.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:795033743602:android:2b86cf9582372e700a606b",
+        "android_client_info": {
+          "package_name": "com.digi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD44v5TZ95_c8NhmfVx86d_1tw1FULmg90"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
