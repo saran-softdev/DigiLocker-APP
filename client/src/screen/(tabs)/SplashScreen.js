@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react';
-import {View, ActivityIndicator} from 'react-native';
+import {View, ActivityIndicator, Text} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
 import {SIGNIN_SUCCESS} from '../../redux/actionTypes';
+import NetworkManager from '../../lib/networkManager';
 
 export default function SplashScreen({navigation}) {
   const dispatch = useDispatch();
@@ -10,8 +11,12 @@ export default function SplashScreen({navigation}) {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
+        // Check network connectivity
+        const isConnected = await NetworkManager.checkConnectivity();
+        
         const user = await AsyncStorage.getItem('user');
         const token = await AsyncStorage.getItem('token');
+        
         if (user && token) {
           dispatch({
             type: SIGNIN_SUCCESS,

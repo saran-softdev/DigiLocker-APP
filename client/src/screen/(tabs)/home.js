@@ -99,7 +99,7 @@ export default function Documents() {
       const ext = extMatch ? extMatch[1] : 'bin'; // "pdf"
       const filename = `${documentName.replace(/\s+/g, '_')}_${id}.${ext}`;
 
-      // 3) RNFS.downloadFile with Android’s DownloadManager
+      // 3) RNFS.downloadFile with Android's DownloadManager
       const downloadDest = `${RNFS.DownloadDirectoryPath}/DigiVault/${filename}`;
       // ensure subfolder exists
       const dir = `${RNFS.DownloadDirectoryPath}/DigiVault`;
@@ -142,13 +142,15 @@ export default function Documents() {
       const token = await AsyncStorage.getItem('token');
       if (!token) throw new Error('Missing auth token');
 
-      const folderPath = `${RNFS.DocumentDirectoryPath}/DigiVault`;
+      const folderPath = Platform.OS === 'android'
+        ? `${RNFS.ExternalStorageDirectoryPath}/Android/media/com.digi/DigiVault`
+        : `${RNFS.DocumentDirectoryPath}/DigiVault`;
       if (!(await RNFS.exists(folderPath))) {
         await RNFS.mkdir(folderPath);
       }
 
-      const ext = fileURL.split('.').pop();
-      const filename = `${documentName.replace(/\s/g, '_')}_${id}.${ext}`;
+      // Save offline file with .pdf extension
+      const filename = `${documentName.replace(/\s+/g, '_')}_${id}.pdf`;
       const destPath = `${folderPath}/${filename}`;
       const download = RNFS.downloadFile({
         fromUrl: makeUrl(fileURL),

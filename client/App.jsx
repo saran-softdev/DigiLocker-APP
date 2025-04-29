@@ -1,5 +1,5 @@
 // App.js
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -16,11 +16,20 @@ import DocumentView from './src/screen/(tabs)/DocumentView';
 import MainTabs from './src/navigation/MainTabs';
 import SplashScreen from './src/screen/(tabs)/SplashScreen'; // ✅ new fil
 import {useNotification} from './src/notifications/useNotifications';
+import NetworkManager from './src/lib/networkManager';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   useNotification();
+  
+  // Initialize network monitoring
+  useEffect(() => {
+    const unsubscribe = NetworkManager.initNetworkMonitoring();
+    NetworkManager.checkConnectivity();
+    return () => unsubscribe();
+  }, []);
+  
   return (
     <Provider store={store}>
       <SafeAreaProvider>
@@ -41,7 +50,7 @@ export default function App() {
             <Stack.Screen name="SignUp" component={SignUp} />
             <Stack.Screen name="Upload" component={Upload} />
             <Stack.Screen name="DocumentView" component={DocumentView} />
-            {/* After auth, this becomes your “main” UI */}
+            {/* After auth, this becomes your "main" UI */}
             <Stack.Screen name="MainTabs" component={MainTabs} />
           </Stack.Navigator>
           <Toast />
